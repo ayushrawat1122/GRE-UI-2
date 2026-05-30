@@ -1,0 +1,11 @@
+.error {
+     color: red;
+  font-size: 0.85em;
+  margin-bottom: 10px;
+    display: block;
+}
+
+input.form-control.pr-5 {
+  padding-right: 2.5rem;
+}
+

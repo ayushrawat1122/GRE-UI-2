@@ -1,0 +1,52 @@
+<section class="account-settings">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="account-setting-left">
+                    <h2>{{user?.StoreName}}<br>Account Settings</h2>
+                    <ul>
+                        <li><a [routerLink]="['/dashboard/account/manage-profile']" routerLinkActive="active">
+                            <span>Manage Profile</span></a></li>
+                        <li><a [routerLink]="['/dashboard/account/change-password']" routerLinkActive="active"><span>Change
+                                Password</span></a></li>
+                        <li *ngIf="userRoles?.includes('CanViewOrderHistory') || userRoles?.includes('IsAdmin')"><a [routerLink]="['/dashboard/order-history']" routerLinkActive="active"><span>{{ storeID==0?'Tobacco Order Received':'Tobacco Order History'}}</span></a>
+                        </li>
+                        <li *ngIf="userRoles?.includes('CanViewPromoOrderHistory') || userRoles?.includes('IsAdmin')" ><a [routerLink]="['/dashboard/promo-order-history']" routerLinkActive="active"><span>{{ storeID==0?'Promo Order Received':'Promo Order History'}}</span></a>
+                        </li>
+                        <li *ngIf="storeID==0" ><a [routerLink]="['/dashboard/sales-report']" routerLinkActive="active"><span>Sales Report</span></a>
+                        </li>
+                        <li *ngIf="storeID==0"><a [routerLink]="['/dashboard/account/territories']" routerLinkActive="active"><span>Territories</span></a>
+                        </li>
+                        <!-- <li *ngIf="storeID==0"><a [routerLink]="['/dashboard/account/add-territories']" routerLinkActive="active"><span>Add Territory</span></a>
+                        </li> -->
+                        <li *ngIf="storeID==0"><a [routerLink]="['/dashboard/account/stores']" routerLinkActive="active"><span>Stores</span></a>
+                       </li>
+                        <!-- <li *ngIf="storeID==0"><a [routerLink]="['/dashboard/account/add-store']" routerLinkActive="active"><span>Add Store</span></a>
+                        </li> -->
+                        <li *ngIf="userRoles?.includes('IsAdmin') ||storeID==0"><a [routerLink]="['/dashboard/account/users']" routerLinkActive="active"><span>Users</span></a>
+                        </li>
+                        <li *ngIf="storeID==0"><a [routerLink]="['/dashboard/account/newsletters']" routerLinkActive="active"><span>Newsletters</span></a>
+                        </li>
+                        <!-- <li *ngIf="userRoles?.includes('IsAdmin') ||storeID==0"><a [routerLink]="['/dashboard/account/add-user']" routerLinkActive="active"><span>Add User</span></a>
+                        </li> -->
+                        <li *ngIf="userRoles?.includes('IsAdmin')&&storeID>0"><a [routerLink]="['/dashboard/account/my-store',encStoreId]" routerLinkActive="active"><span>My Store</span></a>
+                        </li>
+                        <!-- <li *ngIf="storeID==0"><a [routerLink]="['/dashboard/account/add-product']" routerLinkActive="active"><span>Add Product</span></a>
+                        </li> -->
+                        <li *ngIf="storeID==0"><a [routerLink]="['/dashboard/account/faq']" routerLinkActive="active"><span>Manage FAQs</span></a>
+                        </li>
+                        
+                        <li><a href="javascript:void(0)" (click)="onLogoutClick()"><span>Logout</span></a></li>
+                    </ul>
+
+                </div>
+            </div>
+
+
+
+            <div class="col-md-9">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+    </div>
+</section>

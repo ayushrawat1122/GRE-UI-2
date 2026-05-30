@@ -1,0 +1,197 @@
+<section class="tobacco-order">
+    <div class="container">
+        @if (user?.StoreId=="0")
+        {
+        <h2>Manage Tobacco Products</h2>
+        <div class="d-flex justify-content-end align-items-center mb-3 gap-3">
+
+            <div>
+                <input type="text" class="form-control" placeholder="Search Products" [(ngModel)]="searchTerm"
+                    (ngModelChange)="onSearchTermChange($event)" />
+            </div>
+            <!-- <button class="btn btn-outline-primary" [routerLink]="['/dashboard/account/add-product']">
+                + Add New Product
+            </button> -->
+            <button class="common-btn mb-2 border-0" [routerLink]="['/dashboard/account/add-product']">
+                <img src="assets/images/orange-arrow-right.png" alt="Arrow Right" class="img-fluid" />
+                <p class="text-white m-0">
+                    + Add New Product </p>
+            </button>
+        </div>
+        }
+        @else{
+        <h2>Place a New Order for Tobacco Products</h2>
+        <div class="d-flex justify-content-end align-items-center mb-3 gap-3">
+            <div>
+                <input type="text" class="form-control" placeholder="Search Products" [(ngModel)]="searchTerm"
+                    (ngModelChange)="onSearchTermChange($event)" />
+            </div>
+            <button class="btn btn-outline-primary" [routerLink]="['/dashboard/order-confirmation']">
+                🛒 My Cart ({{ savedCartLength }})
+            </button>
+        </div>
+        }
+        <div class="table-responsive">
+            <table class="table table-bordered m-0">
+                <thead>
+                    <tr>
+                        <th width="50%">Product</th>
+                        @if (user?.StoreId=="0")
+                        {
+                        <th width="20%">$ Case / Carton (Retailer)</th>
+                        <th width="20%">$ Case / Carton (Distributor)</th>
+                        <th width="20%">Status</th>
+                        <th width="15%" class="text-center">Actions</th>
+                        <!-- <th width="15%">Order Cartons</th>
+                            <th width="20%">Subtotal</th> -->
+
+                        }
+                        @else{
+                        <th width="20%">$ Case / Carton</th>
+
+                        <th width="10%">Order Cases</th>
+                        <th width="15%">Order Cartons</th>
+                        <th width="20%">Subtotal</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let product of pagedProducts">
+                        <td>
+                            <div class="table-featured-product ">
+                                <span>
+                                    <img *ngIf="product.isFeatured" src="assets/images/star.svg" alt="Star Icon">
+                                    <h4 class="mt-2">{{product.productName}}</h4>
+                                </span>
+                                <button matTooltipPosition="above" mat-raised-button matTooltip="Product Description" class="btn btn-link" type="button" (click)="openProductDetailModal(product)">
+                                    <img data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                        src="assets/images/info.svg" alt="Info Icon">
+                                </button>
+                            </div>
+                        </td>
+
+
+                        @if (user?.StoreId=="0")
+                        {
+
+                        <td>{{product.pricePerCaseForRetailer|currency:'USD'}} /
+                            {{product.pricePerCartonForRetailer|currency:'USD'}}</td>
+
+                        <td>{{product.pricePerCaseDistributor|currency:'USD'}} /
+                            {{product.pricePerCartonDistributor|currency:'USD'}}</td>
+
+                        <td class="text-center">
+                            <label class="custom-switch" matTooltipPosition="above" mat-raised-button matTooltip="Active/Inactive Product">
+                                <input type="checkbox" [checked]="product.isActive" (change)="toggleActive(product)" />
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+
+                        <div class="text-center d-flex justify-content-center">
+
+
+                            <button matTooltipPosition="above" mat-raised-button matTooltip="Edit Product"
+                                class="btn btn-sm me-2 border-0" (click)="onUpdateProduct(product?.productId
+              )">
+                                <div><i class="bi bi-pencil"></i></div>
+                            </button>
+                            <button matTooltipPosition="above" mat-raised-button matTooltip="Delete Product"
+                                class="btn btn-sm border-0" data-bs-toggle="modal" data-bs-target="#confirmationModal"
+                                (click)="setSelectedProduct(product)">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                        }
+                        @else {
+                        <td>{{product.productPricePerCase|currency:'USD'}} /
+                            {{product.productPricePerCarton|currency:'USD'}}</td>
+                        <td>
+                            <input type="text" class="form-control text-end height-class " [(ngModel)]="product.orderCases"
+                                (input)="onCasesInput($event, product)" (blur)="onBlur(product, 'orderCases')"
+                                (focus)="onFocus(product, 'orderCases')"
+                                [ngClass]="{'is-invalid': product.caseInventoryErrorMessage}">
+                            <small *ngIf="product.caseInventoryErrorMessage" class="text-danger">
+                                {{ product.caseInventoryErrorMessage }}
+                            </small>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control text-end height-class" [(ngModel)]="product.orderCartons"
+                                (input)="onCartonsInput($event, product)" (blur)="onBlur(product, 'orderCartons')"
+                                (focus)="onFocus(product, 'orderCartons')"
+                                [ngClass]="{'is-invalid': product.cartonInventoryErrorMessage}">
+                            <small *ngIf="product.cartonInventoryErrorMessage" class="text-danger">
+                                {{ product.cartonInventoryErrorMessage }}
+                            </small>
+                        </td>
+
+                        <td>{{ product.subtotal | currency:'USD' }}</td>
+                        }
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- <app-pagination
+  [totalItems]="totalRecords"
+  [itemsPerPage]="pageSize"
+  [currentPage]="page"
+  (pageChanged)="onPageChanged($event)">
+</app-pagination> -->
+        <app-pagination [totalItems]="filteredProducts.length" [itemsPerPage]="pageSize" [currentPage]="page"
+            (pageChanged)="onPageChanged($event)" (pageSizeChanged)="onPageSizeChange($event)"></app-pagination>
+
+        @if (user?.StoreId=="0")
+        {
+        <div></div>
+        }
+        @else {
+
+        <div class="table-footer table-bordered">
+            <h5>Total</h5>
+            <h5>{{TotalAmount|currency:'USD'}}</h5>
+        </div>
+        <form #form="ngForm">
+            <div class="form-check">
+                <input class="form-check-input" name="isConfirmed" id="checkDefault" type="checkbox" required
+                    [(ngModel)]="isConfirmed" #confirmCheckbox="ngModel" />
+                <label class="form-check-label" for="checkDefault">
+                    I have checked all quantities selected and am ready to order. *
+                </label>
+
+                <div *ngIf="!isConfirmed && showConfirmValidation" class="text-danger mt-1">
+                    Please confirm before proceeding.
+                </div>
+
+            </div>
+
+            <button class="common-btn mt-4" type="button" (click)="goToConfirmation(form)">
+                <img src="assets/images/orange-arrow-right.png" alt="Arrow Right" class="img-fluid" />
+                <p class="text-white m-0">Checkout</p>
+            </button>
+        </form>
+        }
+
+
+    </div>
+
+</section>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered custom-modal-md">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="info-modal-content">
+                    <img [src]="selectedProductModal?.productBase64" width="200" alt="Pack">
+                    <div class="package-info">
+                        <h5>{{selectedProductModal?.productName}}</h5>
+                        <p>{{selectedProductModal?.description}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-confirmation-modal [title]="'Delete Tobacco Product'"
+    [message]="'Are you sure you want to delete ' + selectedProductModal?.productName + '?'" [confirmText]="'Delete'"
+    [cancelText]="'Cancel'" (confirmed)="handleDelete($event)">
+</app-confirmation-modal>

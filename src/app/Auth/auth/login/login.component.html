@@ -1,0 +1,97 @@
+<section class="video-section position-relative">
+    <div class="login-form position-absolute">
+        <div class="row">
+            <div class="col-md-5 p-0">
+                <div class="login-left d-flex align-items-center justify-content-center">
+                    <img src="assets/images/logo.svg" alt="Grand River Enterprises">
+                </div>
+            </div>
+            <div class="col-md-7 p-0">
+                <div class="login-right">
+                    <form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()">
+                        <h1>Customer Login</h1>
+
+                        <input type="text" formControlName="email" placeholder="Email" class="form-control">
+                        <div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
+                            <small class="error" *ngIf="loginForm.get('email')?.errors?.['required']">Email is
+                                required.</small>
+                            <small class="error" *ngIf="loginForm.get('email')?.errors?.['pattern']">Enter a valid email
+                                address.</small>
+                        </div>
+                        <!-- <div>
+                            <input type="password" formControlName="password" placeholder="Password" class="form-control">
+                            <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid"
+                                >
+                                <small class="error">Password is required.</small>
+                            </div>
+                        </div> -->
+                        <div class="position-relative">
+                            <input [type]="showPassword ? 'text' : 'password'" formControlName="password"
+                                placeholder="Password" class="form-control pr-5">
+
+                            <button *ngIf="loginForm.get('password')?.value" type="button" class="border-0 btn position-absolute end-0 top-0 mt-1 me-2"
+                                (click)="togglePasswordVisibility()" tabindex="-1">
+                                <i class="bi" [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
+                            </button>
+
+                            <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
+                                <small class="error">Password is required.</small>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="login-btn">Login</button>
+                        <br>
+                        <a [routerLink]="['/forgot-password']"
+                            routerLinkActive="active" class="pt-1 mt-2 d-inline-block">Forgot Password?</a>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <video class="video-background" autoplay muted loop playsinline>
+        <source src="assets/images/banner-video.mp4" type="video/mp4">
+    </video>
+</section>
+<footer>
+    <div class="container">
+        <div class="footer-wrapper">
+            <div class="row">
+                <div class="col-xl-8 col-md-6">
+                    <div class="footer-left">
+                        <a href="#"><img src="assets/images/footer-logo.svg" width="100"
+                                alt="Grand River Enterprises"></a>
+                        <span>
+                            <h4>A LEGACY BUILT ON HERITAGE, TRADITION & CULTURE</h4>
+                            <p>SIX NATIONS OF THE GRAND RIVER TERRITORY</p>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-md-3">
+                    <a href="https://www.google.com/maps/search/?api=1&query=2176+Chiefswood+Road+Ohsweken+ON+Canada+N0A+1M0"
+                        target="_blank">2176 Chiefswood Road </a>
+                    <br>
+                    <a href="https://www.google.com/maps/search/?api=1&query=2176+Chiefswood+Road+Ohsweken+ON+Canada+N0A+1M0"
+                        target="_blank"> P.O. Box 760,</a><br><a
+                        href="https://www.google.com/maps/search/?api=1&query=2176+Chiefswood+Road+Ohsweken+ON+Canada+N0A+1M0"
+                        target="_blank"> Ohsweken, ON Canada</a><br><a
+                        href="https://www.google.com/maps/search/?api=1&query=2176+Chiefswood+Road+Ohsweken+ON+Canada+N0A+1M0"
+                        target="_blank"> N0A 1M0</a>
+                </div>
+                <div class="col-xl-2 col-md-3">
+                    <a href="tel:1-888-696-2224">1-888-696-2224</a>
+                    <br>
+                    <a href="mailto:info&#64;grandriverenterprises.com">Grand River Enterprises</a>
+                    <br>
+                    <a [routerLink]="['/dashboard/T&C']" routerLinkActive="active">Site Terms & Conditions</a>
+                    <br>
+                    <a [routerLink]="['/dashboard/cookies&policy']">Privacy & Cookie Policy</a>
+                </div>
+            </div>
+            <small>© {{currentYear}} Grand River Enterprises Six Nations Ltd.</small>
+        </div>
+    </div>
+</footer>
+<div class="cookies-icon">
+    <img src="assets/images/footer-logo.png" alt="Footer Logo">
+</div>

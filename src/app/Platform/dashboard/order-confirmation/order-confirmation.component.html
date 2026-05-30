@@ -1,0 +1,194 @@
+<section class="tobacco-order">
+    <div class="container">
+
+        <h2>Order Confirmation for Tobacco Products</h2>
+        <p>Please review your order before submitting.</p>
+
+        <!-- TABLE (UNCHANGED) -->
+        <div class="table-responsive">
+            <table class="table table-bordered m-0">
+                <thead>
+                    <tr>
+                        <th width="50%">Product</th>
+                        <th width="15%">Cases Ordered</th>
+                        <th width="15%">Cartons Ordered</th>
+                        <th width="20%">Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of cartItems | async">
+                        <td>
+                            <div class="table-featured-product">
+                                <span>
+                                    <h4>{{item.productName}}</h4>
+                                </span>
+
+                                <button class="btn btn-link" type="button" (click)="openProductDetailModal(item)">
+                                    <img src="assets/images/info.svg" alt="Info Icon">
+                                </button>
+                            </div>
+                        </td>
+                        <td>{{item.orderCases}}</td>
+                        <td>{{item.orderCartons}}</td>
+                        <td>{{item.subtotal | currency:'USD'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- TOTAL -->
+        <div>
+            <ng-container *ngIf="cartItems | async as items">
+                <div *ngIf="items.length === 0" class="text-center mt-4">
+                    Your cart is currently empty.
+                </div>
+                <div *ngIf="items.length != 0" class="table-footer" style="width:20.05%;">
+                    <h5>Total</h5>
+                    <h5>{{totalAmount$|async| currency:'USD'}}</h5>
+                </div>
+            </ng-container>
+        </div>
+
+        <!-- FORM -->
+        <form #orderForm="ngForm">
+
+            <!-- ADDRESS SECTION -->
+            <div class="store-addresses mt-4">
+
+                <div class="row g-5">
+
+                    <!-- BILL TO -->
+                    <div class="col-md-6">
+                        <div class="address-container">
+
+                            <h5 class="fw-semibold mb-3 sticky-header">Bill To Address</h5>
+
+                            <div class="address-scroll">
+                                <div *ngIf="addresses.length > 0; else noAddress">
+
+                                    <div class="mb-2" *ngFor="let address of addresses; let i = index">
+                                        <div class="address-box p-2 border rounded d-flex align-items-start"
+                                            [class.selected-address]="selectedBillToId === address.addressId"
+                                            matTooltipPosition="above"
+                                            [matTooltip]="'Street: ' + address.streetAddress + ' | City: ' + address.city + ' | Province: ' + address.state + ' | Postal: ' + address.postalCode + ' | Country: ' + address.country">
+                                            
+
+                                            <div class="form-check me-2 mt-1">
+                                                <input class="custom-radio" type="radio" name="billTo"
+                                                    [(ngModel)]="selectedBillToId" [value]="address.addressId"
+                                                    id="bill{{i}}" />
+                                            </div>
+
+                                            <label for="bill{{i}}" class="text-truncate w-100 mb-0">
+                                                <strong>Street:</strong> {{ address.streetAddress }} |
+                                                <strong>City:</strong> {{ address.city }} |
+                                                <strong>Province:</strong> {{ address.state }} |
+                                                <strong>Postal:</strong> {{ address.postalCode }} |
+                                                <strong>Country:</strong> {{ address.country }}
+                                            </label>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- SHIP TO -->
+                    <div class="col-md-6">
+                        <div class="address-container">
+
+                            <h5 class="fw-semibold mb-3 sticky-header">Ship To Address</h5>
+
+                            <div class="address-scroll">
+                                <div *ngIf="addresses.length > 0; else noAddress">
+
+                                    <div class="mb-2" *ngFor="let address of addresses; let i = index">
+                                        <div class="address-box p-2 border rounded d-flex align-items-start"
+                                            [class.selected-address]="selectedShipToId === address.addressId"
+                                            matTooltipPosition="above"
+                                            [matTooltip]="'Street: ' + address.streetAddress + ' | City: ' + address.city + ' | Province: ' + address.state + ' | Postal: ' + address.postalCode + ' | Country: ' + address.country">
+                                            
+
+                                            <div class="form-check me-2 mt-1">
+                                                <input class="custom-radio" type="radio" name="shipTo"
+                                                    [(ngModel)]="selectedShipToId" [value]="address.addressId"
+                                                    id="ship{{i}}" />
+                                            </div>
+
+                                            <label for="ship{{i}}" class="text-truncate w-100 mb-0">
+                                                <strong>Street:</strong> {{ address.streetAddress }} |
+                                                <strong>City:</strong> {{ address.city }} |
+                                                <strong>Province:</strong> {{ address.state }} |
+                                                <strong>Postal:</strong> {{ address.postalCode }} |
+                                                <strong>Country:</strong> {{ address.country }}
+                                            </label>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Validation -->
+                <div *ngIf="showAddressValidation && (!selectedBillToId || !selectedShipToId)" class="text-danger mt-2">
+                    Please select both Bill To and Ship To address.
+                </div>
+
+                <ng-template #noAddress>
+                    <p class="text-danger">No addresses added yet.</p>
+                </ng-template>
+
+            </div>
+
+            <!-- CONFIRM -->
+            <div class="form-check mt-3">
+                <input class="form-check-input" [(ngModel)]="isConfirmed" name="confirmCheckbox" type="checkbox"
+                    id="checkDefault" />
+
+                <label class="form-check-label" for="checkDefault">
+                    I have checked all quantities selected and am ready to order. *
+                </label>
+
+                <div *ngIf="showConfirmValidation && !isConfirmed" class="text-danger mt-1">
+                    Please confirm before submitting.
+                </div>
+            </div>
+
+            <!-- IMPORTANT NOTE -->
+            <div class="important-note mt-4">
+                <p>
+                    <b>IMPORTANT!</b> Once submitted, in order to cancel or change your order,
+                    contact the order desk at
+                    <strong>(519) 445-0919 Ext.243</strong> or
+                    <strong>(226) 208-6214</strong>.
+                </p>
+
+                <div class="important-note-btns d-flex gap-3">
+                    <a [routerLink]="['/dashboard/products']"
+                        class="common-btn mt-4 bg-white d-flex align-items-center">
+                        <img src="assets/images/orange-arrow-right.png" class="me-2" />
+                        <p class="m-0">Back to Order Form</p>
+                    </a>
+
+                    <button class="common-btn mt-4 d-flex align-items-center" type="button" (click)="submitOrder()">
+                        <img src="assets/images/orange-arrow-right.png" class="me-2" />
+                        <p class="text-white m-0">Submit Order</p>
+                    </button>
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+</section>
+
+<app-order-confirm-modal #successModal (closed)="onSuccessModalClosed()"
+    [orderType]="orderType"></app-order-confirm-modal>

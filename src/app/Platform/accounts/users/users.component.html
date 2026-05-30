@@ -1,0 +1,83 @@
+<div class="account-setting-right">
+  <h3>All Users</h3>
+  <p>Below is the list of all registered users.</p>
+</div>
+  <div class="d-flex justify-content-end ">
+    <button class="common-btn mb-2 border-0" (click)="navigateToAddUser()">
+      <img src="assets/images/orange-arrow-right.png" alt="Arrow Right" class="img-fluid" />
+      <p class="text-white m-0">
+        Add User
+      </p>
+    </button>
+  </div>
+
+
+  <div class="table-responsive">
+    <table class="table table-bordered m-0 text-center">
+      <!-- <thead class="table-light">
+                <tr>
+                    <th class="text-center">First Name</th>
+                    <th class="text-center">Last Name</th>
+                    <th class="text-center">Email</th> 
+                    <th class="text-center">User Classification</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of users">
+                    <td class="text-center">{{ user.firstName }}</td>
+                    <td class="text-center">{{ user.lastName }}</td>
+                    <td class="text-center"> {{ user.email }}</td>
+                    <td class="text-center">{{ user.userClassification |titlecase}}</td>
+                    <td class="text-center">
+                        <button class="btn btn-sm me-2 border-0"><i class="bi bi-pencil"></i></button>
+                        <button class="btn btn-sm border-0"><i class="bi bi-trash"></i></button>
+                    </td>
+                </tr>
+            </tbody> -->
+      <thead class="table-light">
+        <tr>
+          <th class="text-center">Name</th>
+          <!-- <th class="text-center">Last Name</th> -->
+          <th class="text-center">Email</th>
+          <th class="text-center">User Type</th>
+          @if(loggeduser?.StoreId=='0'){
+
+          <th class="text-center">Store</th>
+          }
+          <th class="text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users">
+          <td class="text-start">{{ user.firstName }} {{ user.lastName }}</td>
+          <!-- <td class="text-center">{{ user.lastName }}</td> -->
+          <td class="text-start">{{ user.email }}</td>
+          <td class="text-start">{{ user.userClassification | titlecase }}</td>
+          @if(loggeduser?.StoreId=='0'){
+
+
+          <td class="text-start">{{user.storeName}}</td>
+          }
+          <td class="text-center">
+            <button matTooltipPosition="above" mat-raised-button matTooltip="Edit User" class="btn btn-sm me-2 border-0" (click)="onUpdateUser(user.email
+      )"><i class="bi bi-pencil"></i></button>
+            <button matTooltipPosition="above" mat-raised-button matTooltip="Delete User"class="btn btn-sm border-0" data-bs-toggle="modal" data-bs-target="#confirmationModal"
+              (click)="setSelectedUser(user)">
+              <i class="bi bi-trash"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+
+    </table>
+    <app-pagination [totalItems]="totalRecords" [itemsPerPage]="pageSize" [currentPage]="page"
+            (pageChanged)="onPageChanged($event)" (pageSizeChanged)="onPageSizeChange($event)"></app-pagination>  
+          </div>
+ 
+<!-- </div> -->
+
+<app-confirmation-modal [title]="'Delete User'"
+  [message]="'Are you sure you want to delete ' + selectedUser?.firstName + ' ' + selectedUser?.lastName + '?'"
+  [confirmText]="'Delete'" [cancelText]="'Cancel'" (confirmed)="handleDelete($event)">
+</app-confirmation-modal>

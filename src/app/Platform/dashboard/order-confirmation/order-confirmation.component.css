@@ -1,0 +1,85 @@
+.custom-modal-md {
+  max-width: 700px; /* Adjust as needed */
+}
+.address-container {
+  position: relative;
+}
+
+.address-scroll {
+  max-height: 180px; /* ~3 rows */
+  overflow-y: auto;
+}
+
+.sticky-header {
+  position: sticky;
+  top: 0;
+  background: #fff;
+  z-index: 5;
+}
+.selected-address {
+  border: 2px solid #795f73 !important;  /* 🔥 your custom color */
+  background: #eee;                  /* optional light highlight */
+}
+.address-box {
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.address-box:hover {
+  background: #eee;
+}
+
+.border-primary {
+  border-width: 2px !important;
+}
+
+.custom-radio {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #999;
+  border-radius: 50%;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+}
+
+/* Checked state */
+.custom-radio:checked {
+  border-color: #795f73;
+}
+
+/* Inner dot */
+.custom-radio:checked::after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background: #795f73;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Hover */
+.custom-radio:hover {
+  border-color: #795f73;
+}
+/* Chrome, Edge, Safari */
+.address-scroll::-webkit-scrollbar {
+  width: 4px; /* 👈 thin */
+}
+
+.address-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.address-scroll::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 10px;
+}
+
+.address-scroll::-webkit-scrollbar-thumb:hover {
+  background: #999;
+}

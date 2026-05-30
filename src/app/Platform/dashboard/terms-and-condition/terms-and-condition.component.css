@@ -1,0 +1,81 @@
+/* Container width & spacing */
+.terms-ui {
+  padding: 100px 0;
+}
+
+.terms-ui .container {
+  max-width: 980px;
+}
+
+/* Headings */
+.terms-ui h2 {
+  font-size: 32px;
+  margin-bottom: 24px;
+  font-weight: 600;
+    color: #301b3d;
+
+}
+
+.terms-ui h3 {
+  margin-top: 32px;
+  margin-bottom: 12px;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.terms-ui h4 {
+  margin-top: 20px;
+  margin-bottom: 8px;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+/* Paragraph readability */
+.terms-ui p {
+  line-height: 1.8;
+  font-size: 15px;
+  /* color: #d1d1d1; */
+  margin-bottom: 14px;
+}
+
+/* Links */
+.terms-ui a {
+  color: #5bbcff;
+  text-decoration: underline;
+}
+
+.terms-ui a:hover {
+  color: #89d1ff;
+}
+
+/* Section separation */
+.terms-ui h3:not(:first-child),
+.terms-ui h4:not(:first-child) {
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Mobile friendly */
+@media (max-width: 768px) {
+  .terms-ui h2 {
+    font-size: 26px;
+  }
+
+  .terms-ui h3 {
+    font-size: 20px;
+  }
+
+  .terms-ui p {
+    font-size: 14px;
+  }
+}
+
+
+.terms-ui .container {
+  background: rgba(255, 255, 255, 0.02);
+  padding: 30px;
+  border-radius: 12px;
+}
+.terms-ui {
+  letter-spacing: 0.2px;
+}

@@ -1,0 +1,93 @@
+/* Layout */
+.privacy-ui {
+  padding: 100px 0;
+}
+
+.privacy-ui .container {
+  max-width: 980px;
+}
+
+/* Headings */
+.privacy-ui h3 {
+  font-size: 26px;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.privacy-ui h4 {
+  margin-top: 32px;
+  margin-bottom: 10px;
+  color: #301b3d;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.privacy-ui h5 {
+  margin-top: 20px;
+  margin-bottom: 8px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* Paragraphs */
+.privacy-ui p {
+  line-height: 1.85;
+  font-size: 15px;
+  margin-bottom: 14px;
+  /* color: #d1d1d1;  */
+}
+
+/* Lists */
+.privacy-ui ul {
+  padding-left: 1.25rem;
+  margin-bottom: 16px;
+}
+
+.privacy-ui li {
+  line-height: 1.7;
+  margin-bottom: 8px;
+}
+
+/* Links */
+.privacy-ui a {
+  color: #5bbcff;
+  text-decoration: underline;
+}
+
+.privacy-ui a:hover {
+  color: #89d1ff;
+}
+
+/* Section separators (visual breathing room) */
+.privacy-ui h4:not(:first-of-type),
+.privacy-ui h5:not(:first-of-type) {
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Card feel (optional but nice) */
+.privacy-ui .container {
+  background: rgba(255, 255, 255, 0.02);
+  padding: 32px;
+  border-radius: 12px;
+}
+
+/* Mobile readability */
+@media (max-width: 768px) {
+  .privacy-ui h3 {
+    font-size: 22px;
+  }
+
+  .privacy-ui h4 {
+    font-size: 18px;
+  }
+
+  .privacy-ui p,
+  .privacy-ui li {
+    font-size: 14px;
+  }
+
+  .privacy-ui .container {
+    padding: 20px;
+  }
+}

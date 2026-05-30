@@ -1,0 +1,95 @@
+<div class="territory-setting-right ">
+  <h3>All Territories</h3>
+  <p>Below is the list of all registered territories.</p>
+
+  <div class="d-flex justify-content-between align-items-center mb-1">
+
+   <input
+        type="text"
+        class="form-control w-25"
+        placeholder="Search territory..."
+        [(ngModel)]="searchTerm"
+        (input)="onSearchChange()"
+      />
+
+    <div class="d-flex justify-content-end mb-2">
+      <button class="common-btn mb-2 border-0" (click)="navigateToAddTerritory()">
+        <img src="assets/images/orange-arrow-right.png" alt="Arrow Right" class="img-fluid" />
+        <p class="text-white m-0">
+          Add Territory
+        </p>
+      </button>
+    </div>
+  </div>
+  <!-- <div>
+
+    <input
+        type="text"
+        class="form-control w-25"
+        placeholder="Search territory..."
+        [(ngModel)]="searchTerm"
+        (input)="onSearchChange()"
+      />
+  
+    </div>
+</div>
+    <div class="d-flex justify-content-end mb-2">
+      <button class="common-btn mb-2 border-0" (click)="navigateToAddTerritory()">
+        <img src="assets/images/orange-arrow-right.png" alt="Arrow Right" class="img-fluid" />
+        <p class="text-white m-0">
+          Add Territory
+        </p>
+      </button>
+    </div> -->
+  <span></span>
+
+  <div class="table-responsive">
+    <table class="table table-bordered m-0 text-center">
+      <thead class="table-light">
+        <tr>
+          <th class="text-center">Territory</th>
+          <th class="text-center">Delivery Days</th>
+          <th class="text-center">Status</th>
+          <th class="text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let territory of territories">
+          <!-- Territory Name -->
+          <td >{{ territory.territoryName }}</td>
+
+          <!-- Delivery Days -->
+          <td class="text-start">
+            {{ getTerritoryDays(territory) }}
+          </td>
+
+          <!-- Status -->
+          <td class="text-center">
+            <label class="custom-switch" mat-raised-button matTooltip="Active/Inactive Territory">
+              <input type="checkbox" [checked]="territory.isActive" (change)="toggleActive(territory)" />
+              <span class="slider"></span>
+            </label>
+          </td>
+
+          <!-- Actions -->
+          <td class="text-center">
+            <button matTooltipPosition="above" mat-raised-button matTooltip="Edit Territory" class="btn btn-sm me-2 border-0" (click)="onUpdateTerritory(territory.territoryId)">
+              <i class="bi bi-pencil"></i>
+            </button>
+            <button matTooltipPosition="above" mat-raised-button matTooltip="Delete Territory"  class="btn btn-sm border-0" data-bs-toggle="modal" data-bs-target="#confirmationModal"
+              (click)="setSelectedTerritory(territory)">
+              <i class="bi bi-trash"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+<app-pagination [totalItems]="totalRecords" [itemsPerPage]="pageSize" [currentPage]="page"
+            (pageChanged)="onPageChanged($event)" (pageSizeChanged)="onPageSizeChange($event)"></app-pagination>  </div>
+<!-- </div> -->
+
+<!-- Confirmation Modal -->
+<app-confirmation-modal [title]="'Delete Territory'"
+  [message]="'Are you sure you want to delete ' + selectedTerritory?.territoryName + '?'" [confirmText]="'Delete'"
+  [cancelText]="'Cancel'" (confirmed)="handleDelete($event)">
+</app-confirmation-modal>

@@ -1,0 +1,40 @@
+[type=button]:not(:disabled), [type=reset]:not(:disabled), [type=submit]:not(:disabled), button:not(:disabled) {
+    position: absolute;
+    cursor: pointer;
+    top: -5px;
+}
+
+.pagination-wrapper {
+  max-width: 100%;        /* container width */
+  overflow-x: auto;       /* horizontal scroll */
+  -webkit-overflow-scrolling: touch; /* smooth scrolling on mobile */
+}
+
+/* Optional: if pagination uses <ul> inside app-pagination */
+.pagination-wrapper ul {
+  white-space: nowrap;    /* keep buttons in one row */
+  margin: 0;
+  padding: 0;
+}
+.btn-style{
+/* height: 37px;
+    width: 70px; */
+    flex: 0 0 37px;
+    background-color: #795f73;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+}
+
+.order-reset-btn {
+    height: 37px;
+    width: 70px;
+    flex: 0 0 37px;
+    background-color: #795f73;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+}

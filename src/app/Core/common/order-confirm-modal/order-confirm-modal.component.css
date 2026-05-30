@@ -1,0 +1,11 @@
+.bg-head{
+    background-color: #795f73;
+}
+.tall-modal {
+  max-height: 80vh; /* Or any value */
+}
+
+.tall-modal .modal-content {
+  height: 100%;
+}
+/* background-color: #795f73 */

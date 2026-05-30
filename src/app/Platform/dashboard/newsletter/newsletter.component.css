@@ -1,0 +1,10 @@
+.common-btn {
+    font-weight: 500;
+    text-decoration: none;
+    padding: 10px 40px;
+    background-color: #795f73;
+    position: relative;
+    font-size: 15px;
+    color: #fff;
+    display: inline-block;
+}

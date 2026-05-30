@@ -1,0 +1,267 @@
+@media (max-width:567px) {
+    .navbar-brand {
+        position: relative;
+    }
+
+    .navbar-brand img {
+        width: 80px;
+    }
+
+    .navbar {
+        height: auto;
+    }
+    .navbar-toggler-icon {
+        filter: invert(1);
+    }
+    .navbar-nav .nav-item .nav-link::before {
+        display: none;
+    }
+    .navbar-nav{
+        padding-bottom: 20px;
+    }
+    section{
+        padding: 50px 0 !important;
+    }
+    .account-setting-left{
+        margin-bottom: 30px;
+    }
+    .account-setting-left, .account-setting-right{
+        padding: 0;
+        border: 0px;
+    }
+    .relative-footer .footer-wrapper{
+        text-align: center;
+    }
+    .footer-left{
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    footer a, footer small{
+        text-align: center;
+    }
+    .order-history-header{
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .order-history-right{
+        flex-wrap: wrap;
+    }
+    .tobacco-order h2, .faq h3, .newsletter h2{
+        font-size: 25px;
+    }
+    .important-note-btns, .important-note{
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+    .important-note-btns a, .important-note a{
+        margin: 0 !important;
+        justify-content: center;
+    }
+    .common-btn p{
+        text-align: center;
+    }
+    .table-footer{
+        width: 100% !important;
+    }
+    .form-check{
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        margin-top: 20px;
+    }
+    .table thead tr th:nth-child(1), .table tbody tr td:nth-child(1) {
+        white-space: nowrap;
+    }
+    .table-featured-product{
+        gap: 10px;
+    }
+    .whats-new h2{
+        font-size: 20px;
+        text-align: left;
+    }
+    .featured-product{
+        padding: 0;
+    }
+    .featured-product-catagory{
+        margin-top: 30px;
+    }
+    .dreamcatcher{
+        padding-bottom: 0 !important;
+    }
+    .dreamcatcher .row{
+        flex-direction: column-reverse;
+    }
+    .login-form{
+        position: relative;
+        top: 0;
+        transform: none;
+        left: 0;
+    }
+    .video-background{
+        display: none;
+    }
+    footer{
+        position: relative;
+        background-color: #000;
+    }
+    .video-section{
+        height: 80vh;
+    }
+    .login-right form .form-control{
+        border: 1px solid #000;
+    }
+    .footer-left span h4{
+        font-size: 16px;
+    }
+    .modal-body{
+        padding: 20px;
+    }
+    .info-modal-content{
+        flex-direction: column;
+    }
+}
+
+@media (min-width: 568px) and (max-width:1024px) {
+      .navbar-brand {
+        position: relative;
+    }
+
+    .navbar-brand img {
+        width: 80px;
+    }
+
+    .navbar {
+        height: auto;
+    }
+    .navbar-toggler-icon {
+        filter: invert(1);
+    }
+    .navbar-nav .nav-item .nav-link::before {
+        display: none;
+    }
+    .navbar-nav{
+        padding-bottom: 20px;
+    }
+    section{
+        padding: 50px 0 !important;
+    }
+    .account-setting-left{
+        margin-bottom: 30px;
+    }
+    .account-setting-left, .account-setting-right{
+        padding: 0;
+        border: 0px;
+    }
+    .relative-footer .footer-wrapper{
+        text-align: center;
+    }
+    footer a, footer small{
+        text-align: center;
+    }
+    .order-history-header{
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .tobacco-order h2, .faq h3, .newsletter h2{
+        font-size: 25px;
+    }
+    .important-note-btns, .important-note{
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+    .important-note-btns a, .important-note a{
+        margin: 0 !important;
+        justify-content: center;
+    }
+    .common-btn p{
+        text-align: center;
+    }
+    .table-footer{
+        width: 100% !important;
+    }
+    .form-check{
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        margin-top: 20px;
+    }
+    .table thead tr th:nth-child(1), .table tbody tr td:nth-child(1) {
+        white-space: nowrap;
+    }
+    .table-featured-product{
+        gap: 10px;
+    }
+    .whats-new h2{
+        font-size: 20px;
+        text-align: left;
+    }
+    .featured-product{
+        padding: 0;
+    }
+    .featured-product-catagory{
+        margin-top: 30px;
+    }
+    .dreamcatcher{
+        padding-bottom: 0 !important;
+    }
+    .login-form{
+        position: relative;
+        top: 0;
+        transform: none;
+        left: 0;
+    }
+    .video-background{
+        display: none;
+    }
+    footer{
+        position: relative;
+        background-color: #000;
+    }
+    .login-right form .form-control{
+        border: 1px solid #000;
+    }
+    .dreamcatcher{
+        padding-bottom: 0 !important;
+    }
+    .dreamcatcher .row{
+        flex-direction: column-reverse;
+    }
+    footer a, footer small{
+        font-size: 12px;
+    }
+}
+@media (min-width: 768px) and (max-width:1024px) {
+    .video-section{
+        height: 35.5vh;
+    }
+}
+@media (min-width: 1025px) and (max-width:1300px) {
+    .important-note-btns{
+        flex: 0 0 60%;
+    }
+    .table-footer h5{
+        padding: 10px 5px;
+    }
+    .catagory-links a {
+        padding: 10px 20px;
+    }
+    footer a, footer small{
+        font-size: 12px;
+    }
+    .navbar-brand {
+        position: relative;
+    }
+    .navbar-brand img {
+        width: 150px;
+    }
+    .navbar-nav .nav-item .nav-link{
+        padding: 5px 15px;
+        font-size: 13px;
+    }
+    .navbar{
+        height: 150px;
+    }
+}

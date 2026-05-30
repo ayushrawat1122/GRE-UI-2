@@ -1,0 +1,99 @@
+<div class="container mt-4">
+  <!-- Header + Search -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="fw-bold mb-0">FAQ Management</h4>
+
+    <div class="d-flex gap-2">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Search FAQ..."
+        [(ngModel)]="searchTerm"
+        (input)="onSearchChange()"
+        style="width: 250px;"
+      />
+      <button class="btn btn-primary" (click)="toggleForm()">
+        {{ showForm ? 'Close Form' : 'Add FAQ' }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Inline Add / Update Form -->
+  <div *ngIf="showForm" class="card mb-4 shadow-sm">
+    <div class="card-body">
+      <h5 class="mb-3 fw-semibold">{{ selectedFaq ? 'Update FAQ' : 'Add New FAQ' }}</h5>
+
+      <form [formGroup]="faqForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="col-md-12 mb-3">
+            <label class="form-label fw-semibold">Question</label>
+            <input type="text" class="form-control" formControlName="question" placeholder="Enter question"/>
+            <div *ngIf="faqForm.get('question')?.touched && faqForm.get('question')?.invalid" class="text-danger small">
+              Question is required.
+            </div>
+          </div>
+          <!-- <div class="col-md-6 mb-3">
+            <label class="form-label fw-semibold">Category</label>
+            <input type="text" class="form-control" formControlName="category" placeholder="Optional category"/>
+          </div> -->
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Answer</label>
+          <textarea class="form-control" rows="4" formControlName="answer" placeholder="Enter answer"></textarea>
+          <div *ngIf="faqForm.get('answer')?.touched && faqForm.get('answer')?.invalid" class="text-danger small">
+            Answer is required.
+          </div>
+        </div>
+
+        <div class="form-check form-switch mb-3">
+          <input class="form-check-input" type="checkbox" formControlName="isActive" id="isActive"/>
+          <label class="form-check-label" for="isActive">Active</label>
+        </div>
+
+        <div class="text-end">
+          <button type="button" class="btn btn-secondary me-2" (click)="cancelForm()">Cancel</button>
+          <button type="submit" class="btn btn-primary">{{ selectedFaq ? 'Update FAQ' : 'Save FAQ' }}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- FAQ Accordion -->
+  <div class="accordion" id="faqAccordion">
+    <div *ngFor="let faq of filteredFaqs; let i = index" class="accordion-item mb-2">
+      <h2 class="accordion-header" id="heading{{i}}">
+        <button
+          class="accordion-button collapsed"
+          type="button"
+          data-bs-toggle="collapse"
+          [attr.data-bs-target]="'#collapse' + i"
+          aria-expanded="false"
+          [attr.aria-controls]="'collapse' + i">
+          {{ faq.question }}
+        </button>
+      </h2>
+      <div
+        [id]="'collapse' + i"
+        class="accordion-collapse collapse"
+        [attr.aria-labelledby]="'heading' + i"
+        data-bs-parent="#faqAccordion">
+        <div class="accordion-body">
+          <p [innerHTML]="faq.answer"></p>
+          <div class="text-end">
+            <button class="btn btn-sm btn-outline-secondary me-2" (click)="editFaq(faq)">
+              <i class="bi bi-pencil"></i> Edit
+            </button>
+            <button class="btn btn-sm btn-outline-danger" (click)="deleteFaq(faq.id)">
+              <i class="bi bi-trash"></i> Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="faqs.length === 0" class="text-center text-muted py-5">
+      No FAQs found
+    </div>
+  </div>
+</div>

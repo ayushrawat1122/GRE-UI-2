@@ -1,0 +1,178 @@
+<section class="tobacco-order">
+    <div class="container">
+        @if (user?.StoreId=='0')
+        {
+        <h2>Manage Promotional Products</h2>
+        <div class="d-flex justify-content-end align-items-center mb-3 gap-3">
+            <div>
+                <input type="text" class="form-control" placeholder="Search Products" [(ngModel)]="searchTerm"
+                    (ngModelChange)="onSearchTermChange($event)" />
+            </div>
+            <!-- <button class="btn btn-outline-primary" [routerLink]="['/dashboard/account/add-product']">
+                + Add New Product
+            </button> -->
+            <button class="common-btn mb-2 border-0" [routerLink]="['/dashboard/account/add-product']">
+                <img src="assets/images/orange-arrow-right.png" alt="Arrow Right" class="img-fluid" />
+                <p class="text-white m-0">
+                    + Add New Product </p>
+            </button>
+            
+        </div>
+        }
+        @else{
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+
+            <h2>Place a New Order for Promotional Products</h2>
+            <button class="btn btn-outline-primary" [routerLink]="['/dashboard/promo-order-confirmation']">
+                🛒 My Cart ({{ savedCartLength }})
+            </button>
+        </div>
+        }
+        <!-- <p>Instructions for promo products order...</p> -->
+        <div class="table-responsive">
+            <table class="table table-bordered m-0 ">
+                <thead>
+                    <tr>
+                        <th width="45%">Product</th>
+                        <th width="20%">Price</th>
+                        @if (
+                        user?.StoreId=="0"
+                        )
+                        {
+                            
+                        <th width="15%" class="text-center">Status</th>
+                        <th width="15%" class="text-center">Actions</th>
+                        }
+                        @else{
+
+                        <th width="20%" class="text-start">Options</th>
+                        <th width="15%">Quantity </th>
+                        <th width="15%">Subtotal</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let product of pagedProducts">
+                        <td>
+                            <div class="product-wrap">
+                                <span>
+                                    <div class="img-container">
+                                        <img [src]="'data:image/png;base64,' + product.productBase64" alt="Cap"
+                                            class="product-img" />
+                                    </div>
+                                    <h6>{{product.productName}}</h6>
+                                    <!-- <img [src]="'data:image/png;base64,' + product.productBase64" alt="Cap"> -->
+                                </span>
+                                <img matTooltipPosition="above" mat-raised-button matTooltip="Product Description" data-bs-toggle="modal" data-bs-target="#exampleModal" src="assets/images/info.svg"
+                                    (click)="openProductDetailModal(product)" alt="Info Icon">
+                            </div>
+                        </td>
+                        <td>{{product.productPrice | currency : 'USD'}}</td>
+                        @if (user?.StoreId=="0")
+                        {
+                             <td class="text-center">
+                            <label class="custom-switch" mat-raised-button matTooltip="Active/Inactive Product">
+                                <input type="checkbox" [checked]="product.isActive" (change)="toggleActive(product)" />
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                        <div class="text-center d-flex justify-content-center align-items-center gap-2">
+
+
+                            <button matTooltipPosition="above" mat-raised-button matTooltip="Edit Promo Product"
+                                class="btn btn-sm me-2 border-0 pt-4" (click)="onUpdateProduct(product?.productId
+              )"><i class="bi bi-pencil"></i></button>
+                            <button matTooltipPosition="above" mat-raised-button matTooltip="Delete Promo Product"
+                                class="btn btn-sm border-0 pt-4" data-bs-toggle="modal" data-bs-target="#confirmationModal"
+                                (click)="setSelectedProduct(product)">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                        }
+                        @else {
+
+                        <td>
+                            <select name="size" id="select-size" [(ngModel)]="product.masterSizeId"
+                                class="form-select border-black rounded-0">
+                                <option class="optDisplay border-black rounded-0"
+                                    *ngFor="let size of product.masterSizes" [value]="size?.sizeId">{{ size.sizeName
+                                    }}</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control text-end" inputmode="numeric" pattern="[0-9]*" maxlength="5"
+                                (keydown)="allowOnlyNumbers($event)" [(ngModel)]="product.productQuantity"
+                                (input)="updateSubtotal($event, product, 'productQuantity')"
+                                (focus)="onFocus(product, 'productQuantity')"
+                                (blur)="onBlur(product, 'productQuantity')">
+                            <small>
+                                <span class="text-danger" *ngIf="product.quantityError">{{ product.quantityError
+                                    }}</span>
+                            </small>
+                        </td>
+
+                        <td>{{product.subtotal | currency : 'USD'}}</td>
+                        }
+                    </tr>
+
+                </tbody>
+            </table>
+            <app-pagination [totalItems]="filteredProducts.length" [itemsPerPage]="pageSize" [currentPage]="page"
+                (pageChanged)="onPageChanged($event)" (pageSizeChanged)="onPageSizeChange($event)"></app-pagination>
+        </div>
+        @if (user?.StoreId=='0')
+        {
+        <div></div>
+        }
+        @else {
+
+        <div class="table-footer table-bordered">
+            <h5>Total</h5>
+            <h5>{{totalAmount|currency:'USD'}}</h5>
+        </div>
+
+
+
+        <form action="#">
+            <div class="form-check">
+                <input class="form-check-input" [(ngModel)]="isConfirmed" type="checkbox" value="" id="checkDefault"
+                    name="checkDefault">
+                <label class="form-check-label" for="checkDefault">
+                    I have checked all quantities selected I and am ready to order. *
+                </label>
+                <div *ngIf="showConfirmValidation && !isConfirmed" class="text-danger mt-1">
+                    Please confirm before submitting.
+                </div>
+            </div>
+            <button class="common-btn mt-4 " (click)="goToConfirmation()" type="button">
+                <img src="assets/images/orange-arrow-right.png" alt="Arrow Right" class="img-fluid">
+                <p class="text-white m-0">Checkout</p>
+            </button>
+        </form>
+        }
+    </div>
+</section>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered custom-modal-md">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="info-modal-content">
+                    <img [src]="selectedProductModal?.productBase64" width="200" alt="Pack">
+                    <div class="package-info">
+                        <h5>{{selectedProductModal?.productName}}</h5>
+                        <p>{{selectedProductModal?.description}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<app-confirmation-modal [title]="'Delete Promo Product'"
+    [message]="'Are you sure you want to delete ' + selectedProductModal?.productName + '?'" [confirmText]="'Delete'"
+    [cancelText]="'Cancel'" (confirmed)="handleDelete($event)">
+</app-confirmation-modal>

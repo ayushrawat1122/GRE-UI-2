@@ -1,0 +1,47 @@
+<header>
+    <div class="container">
+        <nav class="navbar navbar-expand-lg p-0 position-relative">
+            <a class="navbar-brand p-0" [routerLink]="['/dashboard/home']"><img src="assets/images/logo.svg" alt="Grand River Enterprises"
+                    class="img-fluid"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div *ngIf="user!=null" class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto"> 
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" [routerLink]="['/dashboard/home']"
+                            routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" [routerLink]="['/dashboard/products']"
+                            routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">{{user.StoreId==='0'? 'Manage Tobacco Products':'Tobacco Products'}}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" [routerLink]="['/dashboard/promo-products']"
+                            routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">{{user.StoreId==='0'? 'Manage Promo Products':'Promo Products'}}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" [routerLink]="['/dashboard/faq']"
+                            routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">FAQ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" [routerLink]="['/dashboard/newsletter']"
+                            routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Newsletter</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" [routerLink]="['/dashboard/account/manage-profile']" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact: true }">Settings</a>
+                    </li>
+                    <li class="nav-item nav-btn">
+                        <button class="nav-link" aria-current="page" (click)="logout()">Logout</button>
+                    </li>
+                    <li >
+                        <span class="user-name" aria-current="page">{{user.FirstName + ' ' + user.LastName}}</span>
+                    </li>
+                   
+                </ul>
+            </div>
+        </nav>
+    </div>
+</header>

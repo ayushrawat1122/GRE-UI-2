@@ -1,0 +1,182 @@
+<div class="store-setting-right">
+    <h3>
+        {{ storeForm.get('storeId')?.value > 0 ? 'Update Store' : 'Add New Store' }}
+    </h3>
+
+    <p>
+        {{ storeForm.get('storeId')?.value > 0
+        ? 'Please use the form below to update the store.'
+        : 'Please use the form below to create a new store.' }}
+    </p>
+    <span></span>
+
+    <form [formGroup]="storeForm">
+        <div class="row">
+
+            <!-- Store Name -->
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Store</label>
+                    <input type="text" class="form-control" placeholder="Enter Store Name" formControlName="storeName"
+                        maxlength="100" />
+                    <small class="error"
+                        *ngIf="storeForm.get('storeName')?.touched && storeForm.get('storeName')?.hasError('required')">
+                        Store Name is required.
+                    </small>
+                </div>
+            </div>
+
+            <!-- Territory -->
+            <div class="col-md-6 position-relative">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Territory</label>
+
+                    <input type="text" class="form-control" placeholder="Search territory..."
+                        formControlName="territoryName" (input)="filterTerritories()" (focus)="dropdownOpen = true"
+                        (blur)="closeDropdown()" />
+
+                    <ul *ngIf="dropdownOpen && filteredTerritories.length"
+                        class="list-group position-absolute w-100 shadow"
+                        style="max-height: 200px; overflow-y: auto; z-index: 1000;">
+                        <li class="list-group-item list-group-item-action" *ngFor="let territory of filteredTerritories"
+                            (mousedown)="selectTerritory(territory)">
+                            {{ territory.territoryName }}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Address Section -->
+            <div class="col-md-12">
+                <div class="store-addresses mt-4">
+
+                    <div class="row">
+
+                        <!-- Bill To -->
+                        <div class="col-md-6">
+                            <h5 class="fw-semibold mb-3 sticky-header">Bill To Address</h5>
+
+                            <div *ngFor="let address of billToAddresses"
+                                class="address-box p-2 mb-2 border rounded d-flex align-items-start"
+                                [class.border-primary]="storeForm.get('billTo')?.value === address" (click)="selectBillTo(address)">
+
+                                <input type="radio" name="billTo" class="custom-radio me-2 mt-1" [value]="address"
+                                    formControlName="billTo" (click)="$event.stopPropagation()" />
+
+                                <div class="flex-grow-1 small">
+                                    <div><strong>{{ address.streetAddress }}</strong></div>
+                                    <div>{{ address.city }}, {{ address.state }}</div>
+                                    <div>{{ address.postalCode }}, {{ address.country }}</div>
+                                </div>
+
+                                <div class="ms-2">
+                                    <button class="btn btn-sm me-1"
+                                        (click)="editAddress(address); $event.stopPropagation()">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                    <button class="btn btn-sm"
+                                        (click)="removeAddress(address); $event.stopPropagation()">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- Ship To -->
+                        <div class="col-md-6">
+                            <h5 class="fw-semibold mb-3 sticky-header">Ship To Address</h5>
+
+                            <div *ngFor="let address of shipToAddresses"
+                                class="address-box p-2 mb-2 border rounded d-flex align-items-start"
+                                [class.border-primary]="storeForm.get('shipTo')?.value === address" (click)="selectShipTo(address)">
+
+                                <input type="radio" name="shipTo" class="custom-radio me-2 mt-1" [value]="address"
+                                    formControlName="shipTo" (click)="$event.stopPropagation()" />
+
+                                <div class="flex-grow-1 small">
+                                    <div><strong>{{ address.streetAddress }}</strong></div>
+                                    <div>{{ address.city }}, {{ address.state }}</div>
+                                    <div>{{ address.postalCode }}, {{ address.country }}</div>
+                                </div>
+
+                                <div class="ms-2">
+                                    <button class="btn btn-sm me-1"
+                                        (click)="editAddress(address); $event.stopPropagation()">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                    <button class="btn btn-sm"
+                                        (click)="removeAddress(address); $event.stopPropagation()">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <ng-template #noAddress>
+                    <p class="error">No addresses added yet.</p>
+                </ng-template>
+            </div>
+
+        </div>
+
+        <!-- Address Form -->
+        <div class="col-md-12">
+            <h5 class="fw-semibold mt-3 mb-3">Address Details</h5>
+
+            <div *ngIf="user?.StoreId=='0' || userRoles?.includes('IsAdmin')" class="d-flex justify-content-end mb-3">
+                <button class="common-btn mt-4 border-0" (click)="addAddress()">
+                    <img src="assets/images/orange-arrow-right.png" alt="Arrow Right" class="img-fluid" />
+                    <p class="text-white m-0">Add Address</p>
+                </button>
+            </div>
+
+            <div *ngIf="addAddressMode">
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Street Address</label>
+                        <input type="text" class="form-control" formControlName="streetAddress" />
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">City</label>
+                        <input type="text" class="form-control" formControlName="city" />
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Province</label>
+                        <input type="text" class="form-control" formControlName="state" />
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Postal Code</label>
+                        <input type="text" class="form-control" formControlName="postalCode" />
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Country</label>
+                        <input type="text" class="form-control" formControlName="country" />
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Submit -->
+        <div class="col-md-12">
+            <button type="submit" class="common-btn mt-4 border-0" (click)="onSaveStore()">
+                <img src="assets/images/orange-arrow-right.png" alt="Arrow Right" class="img-fluid" />
+                <p class="text-white m-0">
+                    {{ storeForm.get('storeId')?.value > 0 ? 'Update Store' : 'Create Store' }}
+                </p>
+            </button>
+        </div>
+
+    </form>
+</div>

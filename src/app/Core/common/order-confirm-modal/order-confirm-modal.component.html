@@ -1,0 +1,15 @@
+<div #modalElement class="modal fade" id="orderSuccessModal" tabindex="-1" aria-labelledby="orderSuccessModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered tall-modal">
+    <div class="modal-content border-success" style="background-color: #e5ceac;"> <!-- light green -->
+      <div class="modal-header bg-head text-white">
+        <h5 class="modal-title" id="orderSuccessModalLabel">{{orderType }} Order Placed</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">  
+  <i class="bi bi-check-circle-fill text-success fs-1 mb-3"></i>
+  <p class="mb-0 fw-semibold">Your order has been placed successfully!</p>
+  <p class="text-muted mt-2">You will be redirected to the dashboard in <strong>{{ countdown }}</strong> seconds...</p>
+</div>
+    </div>
+  </div>
+</div>

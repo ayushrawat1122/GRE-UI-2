@@ -1,0 +1,101 @@
+<section class="whats-new">
+    <div class="container">
+        <h2>Welcome to the GRE Customer Order Portal, <b>{{user?.FirstName}}</b></h2>
+        <div class="row mt-5">
+            <div class="col-xl-9 col-lg-6 col-md-6 border-lg-end border-black pe-lg-5">
+                <div class="row align-items-center">
+                    <div class="col-xl-4 col-md-12">
+                        <div class="whats-new-left">
+                            <h3>What's New</h3>
+                            <img [src]="featuredProduct?.productBase64" alt="Pack" class="img-fluid">
+                        </div>
+                    </div>
+                    <div class="col-xl-8 col-md-12">
+                        <div class="featured-product">
+                            <h3>{{featuredProduct?.productName}}</h3>
+                            <!-- <h3>Featured Product Special</h3> -->
+                            <p>{{featuredProduct?.productName}} {{featuredProduct?.description}}</p>
+                            <div class="featured-product-footer">
+                                @if(user?.StoreId=="0")
+                                {
+                                <h4>$ {{featuredProduct?.pricePerCartonForRetailer}}</h4>
+
+                                }
+                                @else {
+                                <h4>$ {{featuredProduct?.productPricePerCarton}}</h4>
+                                }
+                                <!-- <h4>$ {{feSturedProduct?.pricePerCartonDistributor}}</h4> -->
+                                 @if(user?.StoreId != '0'){
+
+                                     <a  [routerLink]="['/dashboard/products']" routerLinkActive="active"
+                                         [routerLinkActiveOptions]="{ exact: true }" class="common-btn"><img
+                                             src="assets/images/orange-arrow-right.png" alt="Arrow Right" class="img-fluid">
+                                         <p>Order Now</p>
+                                     </a>
+                                 }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-6 col-md-6 ps-lg-5">
+                <div class="featured-product-catagory">
+                    <h3>Tobacco Products</h3>
+                    <div class="catagory-links">
+                        <a [routerLink]="['/dashboard/products']" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact: true }" class="common-btn text-nowrap"><img
+                                src="assets/images/orange-arrow-right.png" alt="Arrow Right" class="img-fluid">
+                            <!-- <p>Order Tobacco Products</p> -->
+                            <p>{{user?.StoreId == '0' ? 'Manage Tobacco Products' : 'Order Tobacco Products'}}</p>
+                        </a>
+                        <a [routerLink]="['/dashboard/order-history']" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact: true }" class="common-btn "><img
+                                src="assets/images/orange-arrow-right.png" alt="Arrow Right" class="img-fluid">
+                            <p>{{user?.StoreId == '0' ? 'Tobacco Order Received' : 'Tobacco Order History'}}</p>
+                        </a>
+                    </div>
+                </div>
+                <div class="featured-product-catagory promotional-products">
+                    <h3>Promotional Products</h3>
+                    <div class="catagory-links">
+                        <a [routerLink]="['/dashboard/promo-products']" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact: true }" class="common-btn text-nowrap"><img
+                                src="assets/images/orange-arrow-right-2.png" alt="Arrow Right" class="img-fluid">
+                            <!-- <p class="text-black">Order Promo Products</p> -->
+                            <p class="text-black">{{user?.StoreId == '0' ? 'Manage Promo Products' : 'Order Promo
+                                Products'}}</p>
+                        </a>
+                        <a [routerLink]="['/dashboard/promo-order-history']" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact: true }" class="common-btn"><img
+                                src="assets/images/orange-arrow-right-2.png" alt="Arrow Right" class="img-fluid">
+                            <p class="text-black">{{user?.StoreId == '0' ? 'Promo Order Received' : 'Promo Order
+                                History'}}</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Dreamcatcher chartitable foundation -->
+<section class="dreamcatcher">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-7">
+                <div class="ladies">
+                    <img src="assets/images/dreamcatcher_bkg.png" alt="Dream Cathcer People"
+                        class="img-fluid dreamcatcher_bkg">
+                    <img src="assets/images/dreamcatcher-people.webp" alt="Dream Cathcer People"
+                        class="img-fluid people-image">
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="dreamcatcher-right">
+                    <h2>We are proud to support our community...aut doluptatia volor asition nos ma ditatectem voluptat
+                        aut faceper.</h2>
+                    <img src="assets/images/dremcatcher-logo.png" alt="Dream Catcher Logo" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

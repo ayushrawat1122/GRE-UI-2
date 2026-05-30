@@ -1,0 +1,69 @@
+<div class="territory-setting-right">
+  <h3>
+    {{ territoryForm.get('territoryId')?.value > 0 ? 'Update Territory' : 'Add New Territory' }}
+  </h3>
+
+  <p>
+    {{ territoryForm.get('territoryId')?.value > 0
+      ? 'Please use the form below to update the territory.'
+      : 'Please use the form below to create a new territory.' }}
+  </p>
+  <span></span>
+
+  <form [formGroup]="territoryForm" (ngSubmit)="onSaveTerritory()">
+    <div class="row">
+
+      <!-- Territory Name -->
+      <div class="col-md-6">
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Territory Name</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter Territory Name"
+            formControlName="territoryName"
+            maxlength="100"
+          />
+          <small class="error"
+            *ngIf="territoryForm.get('territoryName')?.touched && territoryForm.get('territoryName')?.hasError('required')">
+            Territory Name is required.
+          </small>
+        </div>
+      </div>
+
+      <!-- Weekdays -->
+      <div class="col-md-12">
+        <h5 class="fw-semibold mt-3 mb-3">Delivery Days</h5>
+        <div class="row">
+          <div class="col-md-3" *ngFor="let day of weekdays">
+            <div class="form-check mb-2">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                [formControlName]="day.control"
+                [id]="day.control"
+              />
+              <label class="form-check-label" [for]="day.control">
+                {{ day.label }}
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit -->
+      <div class="col-md-12">
+        <button type="submit" class="common-btn mt-4 border-0">
+          <img
+            src="assets/images/orange-arrow-right.png"
+            alt="Arrow Right"
+            class="img-fluid"
+          />
+          <p class="text-white m-0">
+            {{ territoryForm.get('territoryId')?.value > 0 ? 'Update Territory' : 'Create Territory' }}
+          </p>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

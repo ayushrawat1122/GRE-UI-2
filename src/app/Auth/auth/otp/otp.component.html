@@ -1,0 +1,36 @@
+<section class="video-section position-relative">
+    <div class="login-form position-absolute">
+        <div class="row">
+            <div class="col-md-5 p-0">
+                <div class="login-left d-flex align-items-center justify-content-center">
+                    <img src="assets/images/logo.svg" alt="Grand River Enterprises">
+                </div>
+            </div>
+            <div class="col-md-7 p-0">
+                <div class="login-right ">
+                    <form [formGroup]="otpForm" (ngSubmit)="onOtpSubmit()" class="otp-form">
+                        <h1>Enter OTP</h1>
+                        <p>We have sent a 6-digit OTP to your registered email address. Please enter it below to verify
+                            your account.</p>
+                        <div class="otp-inputs d-flex justify-content-center">
+                            <input *ngFor="let ctrl of otpControls; let i = index" type="text" maxlength="1"
+                                class="otp-box" [formControlName]="ctrl" inputmode="numeric" pattern="\d*"
+                                (keypress)="allowOnlyNumber($event)" (input)="moveToNext($event, i)"
+                                (keydown.backspace)="moveToPrevious($event, i)" (keydown.enter)="onOtpSubmit()">
+                        </div>
+
+                        <div *ngIf="otpForm.invalid && formSubmitted" class="error d-flex justify-content-center">
+                            <small>Please enter all 6 digits of the OTP.</small>
+                        </div>
+
+                        <button type="submit" class="login-btn">Verify OTP</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <video class="video-background" autoplay muted loop playsinline>
+        <source src="assets/images/banner-video.mp4" type="video/mp4">
+    </video>
+</section>

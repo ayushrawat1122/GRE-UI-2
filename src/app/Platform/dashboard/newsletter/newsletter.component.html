@@ -1,0 +1,86 @@
+<!-- <section class="newsletter">
+    <div class="container">
+        <h2>Newsletter</h2>
+            <div class="embedded-newsletter">
+                <p>Embedded flipbook of newsletter.</p>
+            </div>
+    </div>
+</section> -->
+
+
+
+
+
+
+<!-- <section class="newsletter py-5 bg-light">
+  <div class="container text-center">
+    <h2 class="mb-4">Latest Newsletters</h2>
+
+    <div *ngIf="newsletters.length === 0" class="text-muted">
+      <p>No newsletters available at the moment.</p>
+    </div>
+
+    <div *ngIf="newsletters.length > 0" class="newsletter-carousel position-relative">
+
+      <h4 class="mb-3">{{ newsletters[currentIndex].title }}</h4>
+
+      <div class="ratio ratio-16x9 mb-3">
+        <iframe
+          [src]="newsletters[currentIndex].safePdfUrl"
+          class="w-100"
+          style="border: 1px solid #ccc;"
+        ></iframe>
+      </div>
+
+      <div class="d-flex justify-content-between align-items-center mt-3">
+        <button class="btn btn-outline-primary" (click)="prevNewsletter()" [disabled]="currentIndex === 0">
+          ← Previous
+        </button>
+        <span>{{ currentIndex + 1 }} / {{ newsletters.length }}</span>
+        <button class="btn btn-outline-primary" (click)="nextNewsletter()" [disabled]="currentIndex === newsletters.length - 1">
+          Next →
+        </button>
+      </div>
+
+    </div>
+  </div>
+</section>
+ -->
+<section class="newsletter py-2 bg-light">
+  <div class="container-fluid text-center"> <!-- Changed to container-fluid for full width -->
+    <h2 class="mb-1">Latest Newsletters</h2>
+
+    <div *ngIf="newsletters.length === 0" class="text-muted">
+      <p>No newsletters available at the moment.</p>
+    </div>
+
+    <div *ngIf="newsletters.length > 0" class="newsletter-carousel position-relative">
+
+      <h4 class="mb-1">{{ newsletters[currentIndex].title }}</h4>
+
+      <!-- Removed ratio wrapper -->
+      <!-- <div class="mb-3 px-2">
+        <iframe scrolling="no"
+          [src]="newsletters[currentIndex].safePdfUrl"
+          style="width: 55%; height: 450px; border: 2px solid black;"
+        ></iframe>
+      </div> -->
+      <div class="mb-3 px-2">
+        <iframe scrolling="no" [src]="newsletters[currentIndex].safePdfUrl" [style.width.%]="55"
+          [style.height.px]="iframeHeight" style="border: 2px solid black;"></iframe>
+      </div>
+
+
+      <div class="d-flex justify-content-center gap-4 align-items-center mt-3">
+        <button class="btn common-btn" (click)="prevNewsletter()" [disabled]="currentIndex === 0">
+          ← Previous
+        </button>
+        <span>{{ currentIndex + 1 }} / {{ newsletters.length }}</span>
+        <button class="btn common-btn" (click)="nextNewsletter()" [disabled]="currentIndex === newsletters.length - 1">
+          Next →
+        </button>
+      </div>
+
+    </div>
+  </div>
+</section>

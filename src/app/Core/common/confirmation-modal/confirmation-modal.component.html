@@ -1,0 +1,19 @@
+<div class="modal fade" id="confirmationModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-3">
+      <div class="modal-header" style="background-color: #795f73; color:white;">
+        <h5 class="modal-title" >{{ title }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" style="background-color: #e5ceac;">
+        <p>{{ message }}</p>
+      </div>
+      <div class="modal-footer" style="background-color: #e5ceac;">
+        
+        <button type="button" class="common-btn btn-design" style="background-color: #795f73;" (click)="onConfirm()" data-bs-dismiss="modal">
+          <img src="assets/images/orange-arrow-right.png" alt="Arrow Right" class="img-fluid"><p>{{ confirmText }}</p>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

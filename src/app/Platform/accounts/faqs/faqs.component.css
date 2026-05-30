@@ -1,0 +1,27 @@
+.btn-primary{
+ background: #795f73;
+ border: none;
+}
+
+.btn-primary {
+  background: #795f73;
+  border: none;
+  color: #fff;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+/* Hover effect */
+.btn-primary:hover {
+  background: #6a5265; /* slightly darker shade */
+}
+
+/* Focus / Active (after click) */
+.btn-primary:active,
+.btn-primary:focus {
+  background: #5c4658; /* deeper shade */
+  transform: scale(0.97); 
+  box-shadow: 0 0 0 0.2rem rgba(121, 95, 115, 0.4);
+}
+
+/* Disabled state */
+

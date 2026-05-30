@@ -1,0 +1,57 @@
+<!-- <section class="faq">
+    <div class="container">
+        <h3>FAQs</h3>
+        <p>Get answers to common questions.</p>
+        <div *ngFor="let faq of faqs; let i=index;">
+
+            <div class="accordion mt-3" id="customAccordion" [attr.id]="'customAccordion' + i">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading1" [attr.id]="'heading' + i">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            [attr.data-bs-target]="'#collapse' + i" [attr.aria-controls]="'collapse' + i"
+                            aria-expanded="false">
+                            {{ faq.question }}
+                        </button>
+                    </h2>
+                    <div [attr.id]="'collapse' + i" class="accordion-collapse collapse"
+                        [attr.aria-labelledby]="'heading' + i" [attr.data-bs-parent]="'#customAccordion' + i">
+                        <div class="accordion-body">
+                            {{ faq.answer }}
+                        </div>
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+    </div>
+</section>
+ -->
+
+
+<section class="faq">
+    <div class="container">
+        <h3>FAQs</h3>
+        <p>Get answers to common questions.</p>
+
+        <div class="accordion mt-3" id="customAccordion">
+            <div *ngFor="let faq of faqs; let i = index;" class="accordion-item">
+                <h2 class="accordion-header" [attr.id]="'heading' + i">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                        [attr.data-bs-target]="'#collapse' + i" [attr.aria-controls]="'collapse' + i"
+                        [class.collapsed]="i !== 0" [attr.aria-expanded]="i === 0 ? 'true' : 'false'">
+                        {{ faq.question }}
+                    </button>
+                </h2>
+                <div [attr.id]="'collapse' + i" class="accordion-collapse collapse" [class.show]="i === 0"
+                    [attr.aria-labelledby]="'heading' + i" data-bs-parent="#customAccordion">
+                    <div class="accordion-body">
+                        {{ faq.answer }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+     

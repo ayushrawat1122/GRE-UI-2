@@ -1,0 +1,207 @@
+<div class="store-setting-right">
+    <h3>All Newsletters</h3>
+    <p>Below is the list of all registered newsletters.</p>
+    <div class="d-flex justify-content-between align-items-center mb-1">
+
+        <input type="text" class="form-control w-25 " placeholder="Search Newsletter.." [(ngModel)]="searchTerm"
+            (input)="onSearchChange()" />
+
+        <div *ngIf="user?.StoreId=='0'" class="d-flex justify-content-end mb-2">
+            <button data-bs-toggle="modal" data-bs-target="#addNewsletterModal" class="common-btn mt-4 border-0"
+                >
+                <img src="assets/images/orange-arrow-right.png" alt="Arrow Right" class="img-fluid" />
+                <p class="text-white m-0">
+                    Add Newsletter
+                </p>
+            </button>
+        </div>
+    </div>
+    <span></span>
+
+    <div class="table-responsive">
+        <table class="table table-bordered m-0 text-center">
+            <thead class="table-light">
+                <tr>
+                    <th class="text-center">Title</th>
+                    <!-- <th class="text-center">File Name</th> -->
+                    <th class="text-center">Publish Date</th>
+                    <th class="text-center">Status</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let newsletter of newsLetters">
+                    <td >{{ newsletter.title }}</td>
+
+                    <!-- <td class="text-center">{{ newsletter.pdfName }}</td> -->
+
+
+                    <td class="text-start">
+                        {{ newsletter.publishedDate | date:'yyyy-MM-dd' }}
+                    </td>
+
+                    <!-- Status -->
+                    <td class="text-center">
+                        <label class="custom-switch" mat-raised-button matTooltip="Active/Inactive Newsletter">
+                            <input type="checkbox" [checked]="newsletter.isActive"
+                                (change)="toggleActive(newsletter)" />
+                            <span class="slider"></span>
+                        </label>
+                    </td>
+
+                    <!-- Actions -->
+                    <td class="text-center">
+                        <button matTooltipPosition="above" mat-raised-button matTooltip="Edit Newsletter" data-bs-toggle="modal" data-bs-target="#addNewsletterModal"
+                            class="btn btn-sm me-2 border-0" (click)="onUpdateNewsLetter(newsletter.newsletterId)">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+                        <button matTooltipPosition="above" mat-raised-button matTooltip="Delete Newsletter"  class="btn btn-sm border-0" data-bs-toggle="modal" data-bs-target="#confirmationModal"
+                            (click)="setSelectedNewsLetter(newsletter)">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <app-pagination [totalItems]="totalRecords" [itemsPerPage]="pageSize" [currentPage]="page"
+      (pageChanged)="onPageChanged($event)" (pageSizeChanged)="onPageSizeChange($event)"></app-pagination>
+    </div>
+</div>
+
+<!-- Confirmation Modal -->
+<app-confirmation-modal [title]="'Delete Newsletter'"
+    [message]="'Are you sure you want to delete ' + selectedNewsletter?.title + '?'" [confirmText]="'Delete'"
+    [cancelText]="'Cancel'" (confirmed)="handleDelete($event)">
+</app-confirmation-modal>
+
+<!-- <div class="modal fade" id="addNewsletterModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Add Newsletter</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <form [formGroup]="newsletterForm" (ngSubmit)="addNewsletter()">
+                <div class="modal-body">
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Title</label>
+                        <input type="text" class="form-control" formControlName="title"
+                            placeholder="Enter newsletter title">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Publish Date</label>
+                        <input type="date" class="form-control" formControlName="publishedDate">
+                    </div>
+
+                    <div class="mb-3"> <label class="form-label fw-semibold">PDF File</label> <input type="file"
+                            class="form-control" (change)="onFileSelect($event)" accept="application/pdf"> </div>
+                    <div *ngIf="pdfPreviewUrl" class="mt-3">
+                        <label class="form-label fw-semibold">Preview</label>
+
+                        <div class="border p-2 rounded" style="height: 300px; overflow: hidden;">
+                            <iframe [src]="pdfPreviewUrl" style="width: 100%; height: 100%; border: none;">
+                            </iframe>
+                        </div>
+
+                        <p class="mt-2 text-muted small">File: {{ selectedFile?.name }}</p>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn btn-success">
+                        Add Newsletter
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div> -->
+<div class="modal fade" id="addNewsletterModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">{{newsletterForm.value.newsletterId>0?`Update Newsletter`:`Add Newsletter`}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <form [formGroup]="newsletterForm" (ngSubmit)="addNewsletter()">
+                <div class="modal-body">
+
+                    <!-- TITLE -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Title</label>
+                        <input type="text" class="form-control" formControlName="title"
+                            placeholder="Enter newsletter title"
+                            [ngClass]="{'is-invalid': newsletterForm.get('title')?.touched && newsletterForm.get('title')?.invalid}">
+                        <div class="invalid-feedback"
+                            *ngIf="newsletterForm.get('title')?.touched && newsletterForm.get('title')?.hasError('required')">
+                            Title is required.
+                        </div>
+                    </div>
+
+                    <!-- PUBLISH DATE -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Publish Date</label>
+                        <input type="date" class="form-control" formControlName="publishedDate"
+                            [ngClass]="{'is-invalid': newsletterForm.get('publishedDate')?.touched && newsletterForm.get('publishedDate')?.invalid}">
+                        <!-- Add this if you want publishDate REQUIRED -->
+                        <div class="invalid-feedback" *ngIf="newsletterForm.get('publishedDate')?.touched && newsletterForm.get('publishedDate')?.hasError('required')">
+              Publish date is required.
+            </div>
+                    </div>
+
+                    <!-- PDF FILE -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">PDF File</label>
+                        <input type="file" class="form-control" (change)="onFileSelect($event)" accept="application/pdf"
+                            [ngClass]="{'is-invalid': pdfTouched && newsletterForm.get('pdfBase64')?.invalid}">
+                        <div class="invalid-feedback"
+                            *ngIf="pdfTouched && newsletterForm.get('pdfBase64')?.hasError('required')">
+                            PDF file is required.
+                        </div>
+                    </div>
+
+                    <!-- PREVIEW -->
+                    <div *ngIf="pdfPreviewUrl" class="mt-3">
+                        <label class="form-label fw-semibold">Preview</label>
+
+                        <div class="border p-2 rounded" style="height: 300px; overflow: hidden;">
+                            <iframe *ngIf="pdfPreviewUrl" [src]="pdfPreviewUrl"
+                                style="width: 100%; height: 100%; border: none;">
+                            </iframe>
+
+
+                        </div>
+
+                        <p class="mt-2 text-muted small" *ngIf="!selectedFile">
+                            File: {{ existingFileName }}
+                        </p>
+                        <p class="mt-2 text-muted small" *ngIf="selectedFile">
+                            File: {{ selectedFile.name }}
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="onCancel()">
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn btn-success" [disabled]="newsletterForm.invalid">
+                        {{newsletterForm.value.newsletterId>0?`Update Newsletter`:`Add Newsletter`}}
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

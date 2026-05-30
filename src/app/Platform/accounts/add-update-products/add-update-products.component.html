@@ -1,0 +1,352 @@
+<div class="store-setting-right">
+    <h3>
+        {{ productForm.get('productId')?.value > 0 ? 'Update Product' : 'Add New Product' }}
+    </h3>
+
+    <p>
+        {{ productForm.get('productId')?.value > 0
+        ? 'Please use the form below to update the product.'
+        : 'Please use the form below to create a new product.' }}
+    </p>
+    <span></span>
+
+    <form [formGroup]="productForm">
+        <div class="row">
+            <!-- Product Name -->
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Product Name</label>
+                    <input type="text" class="form-control" placeholder="Enter Product Name"
+                        formControlName="productName" maxlength="150" />
+                    <small class="error"
+                        *ngIf="productForm.get('productName')?.touched && productForm.get('productName')?.hasError('required')">
+                        Product Name is required.
+                    </small>
+                </div>
+            </div>
+
+            <!-- Product Type -->
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Product Type</label>
+                    <select class="form-select" formControlName="productType" (change)="onProductTypeChange($event)"
+                        required>
+                        <option value="">Select Product Type</option>
+                        <option value="sales">Tobacco</option>
+                        <option value="promo">Promo</option>
+                    </select>
+                    <small class="error"
+                        *ngIf="productForm.get('productType')?.touched && productForm.get('productType')?.hasError('required')">
+                        Product Type is required.
+                    </small>
+                </div>
+            </div>
+
+
+
+
+            <!-- Description -->
+            <div class="col-md-12">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Description</label>
+                    <textarea class="form-control" rows="3" placeholder="Enter Description"
+                        formControlName="description"></textarea>
+                </div>
+                <small class="error"
+                    *ngIf="productForm.get('description')?.touched && productForm.get('description')?.hasError('required')">
+                    Product Type is required.
+                </small>
+            </div>
+
+            <!-- Units per Case -->
+            <!-- <div class="col-md-6">
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Units Per Case</label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="unitsPerCase"
+          />
+        </div>
+      </div> -->
+
+            <!-- Unit Type -->
+            <!-- <div class="col-md-6">
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Unit Type</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="unitType"
+          />
+        </div>
+      </div> -->
+
+
+
+            <!-- Pricing -->
+            <!-- <div class="col-md-6" *ngIf="selectedProductType==='promo'">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Price</label>
+                    <div class="input-group">
+                        <span class="input-group-text">$</span>
+                        <input type="text" class="form-control" formControlName="promoPrice" placeholder="Enter Price"
+                            min="0" step="0.01" (input)="onPriceInput($event, 'promoPrice')" required>
+                    </div>
+                </div>
+            </div> -->
+            <div class="col-md-6" *ngIf="selectedProductType==='promo'">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Price</label>
+                    <div class="input-group">
+                        <span class="input-group-text">$</span>
+                        <input type="number" class="form-control" formControlName="promoPrice" placeholder="Enter Price"
+                            min="0.01" step="0.01" (input)="onPriceInput($event, 'promoPrice')" />
+                    </div>
+                    <small class="text-danger"
+                        *ngIf="productForm.get('promoPrice')?.touched && productForm.get('promoPrice')?.hasError('min')">
+                        Price must be greater than 0.
+                    </small>
+                </div>
+            </div>
+
+
+
+            <!-- <div class="col-md-6" *ngIf="selectedProductType==='promo'">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Price Distributor</label>
+                    <div class="input-group">
+                        <span class="input-group-text">$</span>
+                        <input type="text" class="form-control" formControlName="priceDistributor" min="0" step="0.01"
+                            (input)="onPriceInput($event, 'priceDistributor')" />
+                    </div>
+                </div>
+            </div> -->
+
+            <!-- Case & Carton Pricing -->
+            <div class="col-md-6" *ngIf="selectedProductType==='sales'">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Case Price (Retailer)</label>
+                    <div class="input-group">
+                        <span class="input-group-text">$</span>
+                        <input type="number" class="form-control no-spin" formControlName="pricePerCaseForRetailer"
+                            min="0.01" step="0.01" (input)="onPriceInput($event, 'pricePerCaseForRetailer')" />
+                    </div>
+                    <small class="text-danger"
+                        *ngIf="productForm.get('pricePerCaseForRetailer')?.touched && productForm.get('pricePerCaseForRetailer')?.hasError('min')">
+                        Price must be greater than 0.
+                    </small>
+                </div>
+            </div>
+
+            <div class="col-md-6" *ngIf="selectedProductType==='sales'">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Carton Price (Retailer)</label>
+                    <div class="input-group">
+                        <span class="input-group-text">$</span>
+                        <input type="number" class="form-control no-spin" formControlName="pricePerCartonForRetailer"
+                            min="0.01" step="0.01" (input)="onPriceInput($event, 'pricePerCartonForRetailer')" />
+                    </div>
+                    <small class="text-danger"
+                        *ngIf="productForm.get('pricePerCartonForRetailer')?.touched && productForm.get('pricePerCartonForRetailer')?.hasError('min')">
+                        Price must be greater than 0.
+                    </small>
+                </div>
+            </div>
+
+            <div class="col-md-6" *ngIf="selectedProductType==='sales'">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Case Price (Distributor)</label>
+                    <div class="input-group">
+                        <span class="input-group-text">$</span>
+                        <input type="number" class="form-control no-spin" formControlName="pricePerCaseDistributor"
+                            min="0.01" step="0.01" (input)="onPriceInput($event, 'pricePerCaseDistributor')" />
+                    </div>
+                    <small class="text-danger"
+                        *ngIf="productForm.get('pricePerCaseDistributor')?.touched && productForm.get('pricePerCaseDistributor')?.hasError('min')">
+                        Price must be greater than 0.
+                    </small>
+                </div>
+            </div>
+
+            <div class="col-md-6" *ngIf="selectedProductType==='sales'">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Carton Price (Distributor)</label>
+                    <div class="input-group">
+                        <span class="input-group-text">$</span>
+                        <input type="number" class="form-control no-spin" formControlName="pricePerCartonDistributor"
+                            min="0.01" step="0.01" (input)="onPriceInput($event, 'pricePerCartonDistributor')" />
+                    </div>
+                    <small class="text-danger"
+                        *ngIf="productForm.get('pricePerCartonDistributor')?.touched && productForm.get('pricePerCartonDistributor')?.hasError('min')">
+                        Price must be greater than 0.
+                    </small>
+                </div>
+            </div>
+
+            <!-- Quantity -->
+            <div class="col-md-6" *ngIf="selectedProductType==='sales'">
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Quantity in Cases</label>
+          <input
+            type="number"
+            class="form-control no-spin"
+            formControlName="quantityInCases"
+            min="0.01" step="0.01" 
+            (input)="onPriceInput($event, 'quantityInCases')"
+          />
+          <small class="text-danger"
+                        *ngIf="productForm.get('quantityInCases')?.touched && productForm.get('quantityInCases')?.hasError('min')">
+                        Quantity must be greater than 0.
+                    </small>
+        </div>
+      </div>
+
+      <div class="col-md-6" *ngIf="selectedProductType==='sales'">
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Quantity in Cartons</label>
+          <input
+            type="number"
+            class="form-control no-spin"
+            formControlName="quantityInCartons"
+            min="0.01" step="0.01" 
+            (input)="onPriceInput($event, 'quantityInCartons')"
+          />
+          <small class="text-danger"
+                        *ngIf="productForm.get('quantityInCartons')?.touched && productForm.get('quantityInCartons')?.hasError('min')">
+                        Quantity must be greater than 0.
+                    </small>
+        </div>
+
+        
+      </div>
+
+      <div class="col-md-6" *ngIf="selectedProductType==='promo'">
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Quantity</label>
+          <input
+            type="number"
+            class="form-control no-spin"
+            formControlName="quantity"
+            min="0.01" step="0.01" 
+            (input)="onPriceInput($event, 'quantity')"
+          />
+          <small class="text-danger"
+                        *ngIf="productForm.get('quantity')?.touched && productForm.get('quantity')?.hasError('min')">
+                        Quantity must be greater than 0.
+                    </small>
+        </div>
+
+        
+      </div>
+            <!-- Featured -->
+            <div class="col-md-6" *ngIf="selectedProductType==='sales'">
+                <div class="form-check form-switch mb-3">
+                    <input class="form-check-input" type="checkbox" formControlName="isFeatured" id="isFeatured" />
+                    <label class="form-check-label" for="isFeatured">
+                        Is Featured
+                    </label>
+
+                </div>
+            </div>
+            <!-- Image Upload -->
+            <!-- <input type="file" class="form-control" (change)="onFileSelected($event)"  /> -->
+            <div class="col-md-12 d-flex align-items-end gap-5">
+                <div *ngIf="productImagePreview" class="">
+                    <p class="fw-semibold ">Image Preview:</p>
+                    <img [src]="productImagePreview" alt="Product Image" class="img-thumbnail" style="max-width: 250px; max-height: 150px;" />
+                </div>
+                <div class="mb-3 ">
+                    <label class="form-label fw-semibold">Product Image</label>
+                    <input type="file" class="form-control" (change)="onFileSelected($event)" />
+                    <input type="hidden" formControlName="productImageName" />
+                    <span>{{ productForm.value.productImageName }}</span>
+
+                </div>
+            </div>
+            <!-- <div class="col-md-12">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Product Image</label>
+                    <input type="file" class="form-control d-none" #fileInput (change)="onFileSelected($event)" />
+                    <input type="hidden" formControlName="productImageName" />
+                    <span>{{ productForm.value.productImageName }}</span>
+                </div>
+
+                <div *ngIf="productImagePreview" class="position-relative d-inline-block">
+                    <p>Image Preview:</p>
+                    <img [src]="productImagePreview" alt="Product Image" class="img-thumbnail"
+                        style="max-width: 200px;" />
+
+                    <button type="button" class="btn btn-sm btn-light position-absolute top-0 end-0"
+                        style="transform: translate(50%, -50%);" (click)="fileInput.click()">
+                        <i class="bi bi-pencil"></i>
+                    </button>
+                </div>
+            </div> -->
+
+
+            <!-- Promotion Section -->
+            <!-- Product Promotion Details -->
+            <div formGroupName="productPromotion" class="col-md-12 mt-4" *ngIf="selectedProductType==='promo'">
+                <h5 class="fw-semibold">Promotion Details</h5>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Start Date</label>
+                            <input type="date" class="form-control" formControlName="promoStartDate" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">End Date</label>
+                            <input type="date" class="form-control" formControlName="promoEndDate" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Promotion Details</label>
+                            <textarea class="form-control" rows="3" placeholder="Enter promotion details"
+                                formControlName="promoDetails"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Promotion Limit -->
+            <!-- Product Promotion Limit -->
+            <div formGroupName="productPromotionLimit" class="col-md-12 mt-4" *ngIf="selectedProductType==='promo'">
+                <h5 class="fw-semibold">Promotion Limits</h5>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Minimum Quantity</label>
+                            <input type="number" class="form-control" formControlName="minQuantity" placeholder="0" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Maximum Quantity</label>
+                            <input type="number" class="form-control" formControlName="maxQuantity" placeholder="0" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Submit Button -->
+            <div class="col-md-12">
+                <button type="submit" class="common-btn mt-4 border-0" (click)="onSaveProduct()">
+                    <img src="assets/images/orange-arrow-right.png" alt="Arrow Right" class="img-fluid" />
+                    <p class="text-white m-0">
+                        {{ productForm.get('productId')?.value > 0 ? 'Update Product' : 'Create Product' }}
+                    </p>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

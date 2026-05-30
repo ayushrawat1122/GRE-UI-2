@@ -1,0 +1,8 @@
+.error{
+    color: red;
+    
+}
+.readonly-mode {
+  pointer-events: none;
+  opacity: 0.6; /* Visual cue for disabled state */
+}

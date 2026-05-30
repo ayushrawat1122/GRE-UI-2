@@ -1,0 +1,73 @@
+<div class="account-setting-right">
+  <h3>Manage Your Account Profile</h3>
+  <p>Please Use the form below to change/update your account profile.</p>
+  <span></span>
+
+  <form [formGroup]="updateUserForm" (ngSubmit)="onUpdateUserProfile()">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="mb-3">
+          <label class="form-label fw-semibold">First Name</label>
+          <input type="text" class="form-control" placeholder="First Name"
+            formControlName="firstName" maxlength="50" />
+          <div *ngIf="updateUserForm.get('firstName')?.touched && updateUserForm.get('firstName')?.invalid">
+            <small class="error" *ngIf="updateUserForm.get('firstName')?.errors?.['required']">
+              First Name is required.
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Last Name</label>
+          <input type="text" class="form-control" placeholder="Last Name"
+            formControlName="lastName" maxlength="50" />
+          <div *ngIf="updateUserForm.get('lastName')?.touched && updateUserForm.get('lastName')?.invalid">
+            <small class="error" *ngIf="updateUserForm.get('lastName')?.errors?.['required']">
+              Last Name is required.
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-12">
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Email Address</label>
+          <input type="email" class="form-control" placeholder="Email"
+            formControlName="email" maxlength="100" readonly />
+          <div *ngIf="updateUserForm.get('email')?.touched && updateUserForm.get('email')?.invalid">
+            <small class="error" *ngIf="updateUserForm.get('email')?.errors?.['required']">
+              Email is required.
+            </small>
+            <small class="error" *ngIf="updateUserForm.get('email')?.errors?.['pattern']">
+              Enter a valid email address.
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <!-- ✅ Confirm checkbox -->
+      <div class="col-md-12 mt-lg-5">
+        <div class="form-check">
+          <input type="checkbox" class="form-check-input" id="checkDefault"
+            formControlName="confirmCheckbox" />
+          <label class="form-check-label" for="checkDefault">
+            I have verified user account profile changes are correct. *
+          </label>
+          <div *ngIf="updateUserForm.get('confirmCheckbox')?.touched && updateUserForm.get('confirmCheckbox')?.invalid"
+            class="text-danger">
+            Please confirm the profile changes.
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-12">
+        <button type="submit" class="common-btn mt-4 border-0" >
+          <img src="assets/images/orange-arrow-right.png" alt="Arrow Right" class="img-fluid" />
+          <p class="text-white m-0">Submit</p>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
